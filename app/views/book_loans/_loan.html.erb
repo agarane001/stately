@@ -1,0 +1,36 @@
+<div class="p-4">
+  <div class="flex items-center justify-between">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center">
+        <%= link_to loan.book.title, book_path(loan.book), class: "text-sm font-medium text-blue-600 hover:underline truncate" %>
+        <span class="<%= loan_status_classes(loan) %> ml-2">
+          <%= loan.status.titleize %>
+          <% if loan.overdue? %>
+            (<%= pluralize(loan.days_overdue, 'day') %> overdue)
+          <% end %>
+        </span>
+      </div>
+      <div class="mt-1">
+        <p class="text-sm text-gray-500">
+          Borrowed by <%= link_to loan.member.name, member_path(loan.member), class: "hover:underline" %>
+          on <%= format_date(loan.borrowed_date) %>
+          <% if loan.returned? %>
+            | Returned on <%= format_date(loan.returned_date) %>
+          <% else %>
+            | Due on <%= format_date(loan.due_date) %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+
+    <% unless loan.returned? %>
+      <div class="ml-4 flex items-center space-x-2">
+        <%= button_to return_book_loan_path(loan), method: :patch,
+            class: "inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700",
+            form: { data: { turbo_confirm: "Are you sure you want to return this book?" } } do %>
+          Return Book
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h1 style="color: #dc2626;">Library Book Overdue Notice</h1>
+      
+      <p>Dear <%= @member.name %>,</p>
+      
+      <p>Our records show that the following book is overdue by <%= @days_overdue %> days:</p>
+      
+      <div style="background: #fef2f2; padding: 16px; border-radius: 8px; margin: 20px 0; border: 1px solid #fee2e2;">
+        <h2 style="margin: 0 0 8px 0; color: #991b1b;"><%= @book.title %></h2>
+        <p style="margin: 0; color: #991b1b;">by <%= @book.author.name %></p>
+        <p style="margin: 8px 0 0 0; color: #991b1b;">Due Date: <%= @loan.due_date.strftime("%B %d, %Y") %></p>
+      </div>
+      
+      <p>Please return the book as soon as possible to avoid additional late fees. If you have already returned the book, please disregard this notice.</p>
+      
+      <p>If you are having difficulty returning the book, please contact the library to discuss your options.</p>
+      
+      <p>Thank you for your prompt attention to this matter.</p>
+      
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+      
+      <p style="color: #6b7280; font-size: 14px;">
+        This is an automated message. Please do not reply to this email.
+      </p>
+    </div>
+  </body>
+</html>

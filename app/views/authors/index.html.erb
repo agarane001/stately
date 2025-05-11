@@ -1,0 +1,48 @@
+<div class="space-y-6">
+  <div class="flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-gray-900">Authors</h1>
+    <%= link_to new_author_path, class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" do %>
+      <iconify-icon icon="heroicons:plus" class="h-5 w-5 mr-1"></iconify-icon>
+      New Author
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <% @authors.each do |author| %>
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex justify-between">
+            <div>
+              <h3 class="text-lg font-medium text-gray-900">
+                <%= link_to author_path(author), class: "hover:text-blue-600 inline-flex items-center" do %>
+                  <iconify-icon icon="heroicons:pencil" class="h-5 w-5 mr-2"></iconify-icon>
+                  <%= author.name %>
+                <% end %>
+              </h3>
+              <p class="mt-1 text-sm text-gray-500 inline-flex items-center">
+                <iconify-icon icon="heroicons:book-open" class="h-4 w-4 mr-1"></iconify-icon>
+                <%= pluralize(author.books.count, 'book') %> in collection
+              </p>
+            </div>
+            <div class="flex space-x-3">
+              <%= link_to edit_author_path(author), class: "text-blue-600 hover:text-blue-900 inline-flex items-center" do %>
+                <iconify-icon icon="heroicons:pencil-square" class="h-5 w-5"></iconify-icon>
+              <% end %>
+              <%= button_to author_path(author), method: :delete,
+                  class: "text-red-600 hover:text-red-900 inline-flex items-center",
+                  form: { data: { turbo_confirm: 'Are you sure? This cannot be undone.' } } do %>
+                <iconify-icon icon="heroicons:trash" class="h-5 w-5"></iconify-icon>
+              <% end %>
+            </div>
+          </div>
+          <% if author.biography.present? %>
+            <p class="mt-3 text-sm text-gray-600 line-clamp-3">
+              <iconify-icon icon="heroicons:information-circle" class="h-4 w-4 mr-1 inline-block"></iconify-icon>
+              <%= author.biography %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<%= form_with(model: book, class: "max-w-lg") do |f| %>
+  <% if book.errors.any? %>
+    <div class="bg-red-50 p-4 rounded mb-6">
+      <h2 class="text-red-700 font-medium"><%= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+      <ul class="list-disc list-inside text-red-600">
+        <% book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <div>
+      <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :isbn, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :isbn, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :author_id, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.collection_select :author_id, Author.order(:name), :id, :name,
+          { prompt: "Select an author" },
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :category_id, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.collection_select :category_id, Category.order(:name), :id, :name,
+          { prompt: "Select a category" },
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :published_date, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :published_date, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :status, Book.statuses.keys.map { |s| [s.titleize, s] },
+          { prompt: "Select status" },
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_area :description, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div class="flex justify-end space-x-3">
+      <%= link_to 'Cancel', books_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+      <%= f.submit class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    </div>
+  </div>
+<% end %>

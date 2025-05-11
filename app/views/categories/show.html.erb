@@ -1,0 +1,87 @@
+<div class="max-w-3xl mx-auto space-y-6">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+      <div class="flex items-center">
+        <iconify-icon icon="heroicons:tag" class="h-8 w-8 text-gray-400 mr-2"></iconify-icon>
+        <h1 class="text-2xl font-bold text-gray-900"><%= @category.name %></h1>
+      </div>
+      <div class="space-x-3">
+        <%= link_to edit_category_path(@category), 
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" do %>
+          <iconify-icon icon="heroicons:pencil-square" class="h-5 w-5 mr-1"></iconify-icon>
+          Edit
+        <% end %>
+        <%= link_to categories_path, 
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" do %>
+          <iconify-icon icon="heroicons:arrow-left" class="h-5 w-5 mr-1"></iconify-icon>
+          Back
+        <% end %>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-200">
+      <dl>
+        <% if @category.description.present? %>
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500 flex items-center">
+              <iconify-icon icon="heroicons:information-circle" class="h-5 w-5 mr-1"></iconify-icon>
+              Description
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2"><%= @category.description %></dd>
+          </div>
+        <% end %>
+
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 flex items-center">
+            <iconify-icon icon="heroicons:book-open" class="h-5 w-5 mr-1"></iconify-icon>
+            Total Books
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2"><%= @category.books.count %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Category's Books -->
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+        <iconify-icon icon="heroicons:book-open" class="h-6 w-6 mr-2"></iconify-icon>
+        Books in <%= @category.name %>
+      </h3>
+      <div class="mt-5">
+        <div class="flow-root">
+          <ul class="-my-4 divide-y divide-gray-200">
+            <% @category.books.each do |book| %>
+              <li class="py-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900">
+                      <%= link_to book.title, book_path(book), class: "hover:text-blue-600" %>
+                    </p>
+                    <p class="mt-1 text-sm text-gray-500">
+                      By <%= link_to book.author.name, author_path(book.author), class: "hover:text-blue-600" %> |
+                      Published: <%= book.published_date.strftime("%B %d, %Y") %>
+                    </p>
+                  </div>
+                  <div class="ml-4">
+                    <span class="px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-full 
+                      <%= book.available? ? 'bg-green-100 text-green-800' : 
+                          book.borrowed? ? 'bg-yellow-100 text-yellow-800' : 
+                          book.reserved? ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' %>">
+                      <iconify-icon icon="<%= book.available? ? 'heroicons:check-circle' : 
+                                          book.borrowed? ? 'heroicons:clock' : 
+                                          book.reserved? ? 'heroicons:queue-list' : 'heroicons:question-mark-circle' %>" 
+                                  class="h-4 w-4 mr-1"></iconify-icon>
+                      <%= book.status.titleize %>
+                    </span>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

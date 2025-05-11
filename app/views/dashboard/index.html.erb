@@ -1,0 +1,174 @@
+<div class="space-y-8">
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+            <iconify-icon icon="heroicons:book-open" class="h-6 w-6 text-white"></iconify-icon>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Total Books</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @total_books %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+            <iconify-icon icon="heroicons:users" class="h-6 w-6 text-white"></iconify-icon>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Total Members</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @total_members %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+            <iconify-icon icon="heroicons:clock" class="h-6 w-6 text-white"></iconify-icon>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Books on Loan</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @books_on_loan %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+            <iconify-icon icon="heroicons:calendar" class="h-6 w-6 text-white"></iconify-icon>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Active Reservations</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @active_reservations %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activities -->
+  <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
+    <!-- Recent Loans -->
+    <div class="bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+          <iconify-icon icon="heroicons:clock" class="h-5 w-5 mr-2 text-yellow-500"></iconify-icon>
+          Recent Loans
+        </h3>
+        <div class="mt-5">
+          <div class="flow-root">
+            <ul class="-my-4 divide-y divide-gray-200">
+              <% @recent_loans.each do |loan| %>
+                <li class="py-4">
+                  <div class="flex items-center space-x-4">
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-gray-900 truncate">
+                        <%= link_to loan.book.title, book_path(loan.book), class: "hover:text-blue-600" %>
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        Borrowed by <%= link_to loan.member.name, member_path(loan.member), class: "hover:text-blue-600" %>
+                      </p>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      Due: <%= format_short_date(loan.due_date) %>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overdue Books -->
+    <div class="bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+          <iconify-icon icon="heroicons:exclamation-circle" class="h-5 w-5 mr-2 text-red-500"></iconify-icon>
+          Overdue Books
+        </h3>
+        <div class="mt-5">
+          <div class="flow-root">
+            <ul class="-my-4 divide-y divide-gray-200">
+              <% @overdue_loans.each do |loan| %>
+                <li class="py-4">
+                  <div class="flex items-center space-x-4">
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-gray-900 truncate">
+                        <%= link_to loan.book.title, book_path(loan.book), class: "hover:text-blue-600" %>
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        Borrowed by <%= link_to loan.member.name, member_path(loan.member), class: "hover:text-blue-600" %>
+                      </p>
+                    </div>
+                    <div>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        <%= pluralize(loan.days_overdue, 'day') %> overdue
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Reservations -->
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+        <iconify-icon icon="heroicons:queue-list" class="h-5 w-5 mr-2 text-blue-500"></iconify-icon>
+        Recent Reservations
+      </h3>
+      <div class="mt-5">
+        <div class="flow-root">
+          <ul class="-my-4 divide-y divide-gray-200">
+            <% @recent_reservations.each do |reservation| %>
+              <li class="py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      <%= link_to reservation.book.title, book_path(reservation.book), class: "hover:text-blue-600" %>
+                    </p>
+                    <p class="text-sm text-gray-500">
+                      Reserved by <%= link_to reservation.member.name, member_path(reservation.member), class: "hover:text-blue-600" %>
+                    </p>
+                  </div>
+                  <div>
+                    <span class="<%= status_badge(reservation.status, "reservation") %>">
+                      <%= reservation.status.titleize %>
+                    </span>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

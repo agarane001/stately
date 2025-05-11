@@ -1,0 +1,22 @@
+# production:
+#   periodic_cleanup:
+#     class: CleanSoftDeletedRecordsJob
+#     queue: background
+#     args: [ 1000, { batch_size: 500 } ]
+#     schedule: every hour
+#   periodic_command:
+#     command: "SoftDeletedRecord.due.delete_all"
+#     priority: 2
+#     schedule: at 5am every day
+
+jobs:
+  expire_reservations:
+    every: "1h"
+    class: "ExpireReservationsJob"
+    description: "Check for and expire overdue reservations"
+    
+  loan_reminders:
+    every: "1d"
+    at: "09:00"
+    class: "LoanReminderJob"
+    description: "Send due date reminders and overdue notices"

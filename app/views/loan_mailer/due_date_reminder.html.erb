@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h1 style="color: #2563eb;">Library Book Due Date Reminder</h1>
+      
+      <p>Dear <%= @member.name %>,</p>
+      
+      <p>This is a friendly reminder that the following book is due to be returned in <%= @days_until_due %> days:</p>
+      
+      <div style="background: #f3f4f6; padding: 16px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="margin: 0 0 8px 0; color: #1f2937;"><%= @book.title %></h2>
+        <p style="margin: 0; color: #4b5563;">by <%= @book.author.name %></p>
+        <p style="margin: 8px 0 0 0; color: #4b5563;">Due Date: <%= @loan.due_date.strftime("%B %d, %Y") %></p>
+      </div>
+      
+      <p>Please ensure to return the book by the due date to avoid any late fees. If you need more time, please contact the library to discuss extending your loan.</p>
+      
+      <p>Thank you for using our library services!</p>
+      
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+      
+      <p style="color: #6b7280; font-size: 14px;">
+        This is an automated message. Please do not reply to this email.
+      </p>
+    </div>
+  </body>
+</html>
