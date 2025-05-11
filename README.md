@@ -1,4 +1,4 @@
-# Library Management System
+# Stately
 
 A modern library management system built with Ruby on Rails 8, featuring real-time updates using Hotwire, and a beautiful UI powered by Tailwind CSS.
 
@@ -41,8 +41,8 @@ A modern library management system built with Ruby on Rails 8, featuring real-ti
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/library-management.git
-cd library-management
+git clone https://github.com/yourusername/stately.git
+cd stately
 ```
 
 2. Install dependencies
@@ -68,7 +68,7 @@ The application will be available at http://localhost:3000
 
 1. Build the Docker image:
 ```bash
-docker build -t library-management .
+docker build -t stately .
 ```
 
 2. Run the container:
