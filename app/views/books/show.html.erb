@@ -1,160 +1,121 @@
-<div class="max-w-3xl mx-auto">
-  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-gray-900"><%= @book.title %></h1>
-      <div class="space-x-3">
-        <% if @book.can_be_borrowed? %>
-          <%= link_to new_book_loan_path(book_id: @book.id), 
-              class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700" do %>
-            <iconify-icon icon="heroicons:arrow-right-circle" class="h-5 w-5 mr-1"></iconify-icon>
-            Borrow Book
-          <% end %>
-        <% end %>
-        <% if @book.can_be_reserved? %>
-          <%= link_to new_reservation_path(book_id: @book.id),
-              class: "inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700" do %>
-            <iconify-icon icon="heroicons:clock" class="h-5 w-5 mr-1"></iconify-icon>
-            Reserve Book
-          <% end %>
-        <% end %>
-        <%= link_to edit_book_path(@book), 
-            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50" do %>
-          <iconify-icon icon="heroicons:pencil-square" class="h-5 w-5 mr-1"></iconify-icon>
-          Edit
-        <% end %>
-        <%= link_to books_path, 
-            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50" do %>
-          <iconify-icon icon="heroicons:arrow-left" class="h-5 w-5 mr-1"></iconify-icon>
-          Back
-        <% end %>
-      </div>
-    </div>
-
-    <div class="border-t border-gray-200">
-      <dl>
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500 flex items-center">
-            <iconify-icon icon="heroicons:identification" class="h-5 w-5 mr-1"></iconify-icon>
-            ISBN
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2"><%= @book.isbn %></dd>
-        </div>
-
-        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500 flex items-center">
-            <iconify-icon icon="heroicons:pencil" class="h-5 w-5 mr-1"></iconify-icon>
-            Author
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
-            <%= link_to @book.author.name, author_path(@book.author), class: "text-blue-600 hover:text-blue-900" %>
-          </dd>
-        </div>
-
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500 flex items-center">
-            <iconify-icon icon="heroicons:tag" class="h-5 w-5 mr-1"></iconify-icon>
-            Category
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2">
-            <%= link_to @book.category.name, category_path(@book.category), class: "text-blue-600 hover:text-blue-900" %>
-          </dd>
-        </div>
-
-        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500 flex items-center">
-            <iconify-icon icon="heroicons:calendar" class="h-5 w-5 mr-1"></iconify-icon>
-            Published Date
-          </dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:col-span-2"><%= @book.published_date.strftime("%B %d, %Y") %></dd>
-        </div>
-
-        <% if @book.description.present? %>
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500 flex items-center">
-              <iconify-icon icon="heroicons:information-circle" class="h-5 w-5 mr-1"></iconify-icon>
-              Description
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2"><%= @book.description %></dd>
-          </div>
-        <% end %>
-      </dl>
-    </div>
-  </div>
-
-  <% if @book.current_loan %>
-    <div class="mt-6 bg-yellow-50 border border-yellow-100 rounded-lg">
-      <div class="p-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <iconify-icon icon="heroicons:exclamation-circle" class="h-5 w-5 text-yellow-400"></iconify-icon>
-          </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-yellow-800">Current Loan Information</h3>
-            <div class="mt-2 text-sm text-yellow-700">
-              <p>This book is currently borrowed by <%= link_to @book.current_loan.member.name, member_path(@book.current_loan.member), class: "font-medium underline" %>.</p>
-              <p class="mt-1">Due date: <%= @book.current_loan.due_date.strftime("%B %d, %Y") %></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
-  <% if @book.active_reservation %>
-    <div class="mt-6 bg-blue-50 border border-blue-100 rounded-lg">
-      <div class="p-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <iconify-icon icon="heroicons:clock" class="h-5 w-5 text-blue-400"></iconify-icon>
-          </div>
-          <div class="ml-3">
-            <h3 class="text-sm font-medium text-blue-800">Current Reservation</h3>
-            <div class="mt-2 text-sm text-blue-700">
-              <p>This book is currently reserved by <%= link_to @book.active_reservation.member.name, member_path(@book.active_reservation.member), class: "font-medium underline" %>.</p>
-              <p class="mt-1">Expires on: <%= @book.active_reservation.expiry_date.strftime("%B %d, %Y") %></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
-  <div class="mt-6 bg-white shadow sm:rounded-lg">
-    <div class="px-4 py-5 sm:p-6">
-      <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
-        <iconify-icon icon="heroicons:clock-rewind" class="h-6 w-6 mr-2"></iconify-icon>
-        Loan History
-      </h3>
-      <div class="mt-5">
-        <div class="flow-root">
-          <ul class="-my-4 divide-y divide-gray-200">
-            <% @book.book_loans.order(borrowed_date: :desc).each do |loan| %>
-              <li class="py-4">
-                <div class="flex items-center space-x-4">
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900">
-                      <%= link_to loan.member.name, member_path(loan.member), class: "hover:underline" %>
-                    </p>
-                    <p class="text-sm text-gray-500">
-                      Borrowed: <%= loan.borrowed_date.strftime("%B %d, %Y") %>
-                      <% if loan.returned_date %>
-                        | Returned: <%= loan.returned_date.strftime("%B %d, %Y") %>
-                      <% end %>
-                    </p>
-                  </div>
-                  <div>
-                    <span class="<%= loan_status_classes(loan) %> inline-flex items-center">
-                      <iconify-icon icon="<%= loan.returned? ? 'heroicons:check-circle' : loan.overdue? ? 'heroicons:exclamation-circle' : 'heroicons:clock' %>" 
-                                  class="h-4 w-4 mr-1"></iconify-icon>
-                      <%= loan.status.titleize %>
-                    </span>
-                  </div>
-                </div>
-              </li>
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
+        <h1 class="text-2xl font-bold text-gray-900"><%= @book.title %></h1>
+        <div class="flex space-x-3">
+          <%= back_button(books_path) %>
+          <% if can?(:update, @book) %>
+            <%= link_to edit_book_path(@book), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" do %>
+              <iconify-icon icon="heroicons:pencil-square" class="h-5 w-5 mr-2"></iconify-icon>
+              Edit Book
             <% end %>
-          </ul>
+          <% end %>
         </div>
       </div>
+
+      <div class="px-4 py-5 sm:p-6">
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">ISBN</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @book.isbn %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Status</dt>
+            <dd class="mt-1">
+              <span class="<%= status_badge(@book.status, "book") %>">
+                <%= @book.status.humanize %>
+              </span>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Author</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= link_to @book.author.name, author_path(@book.author), class: "text-blue-600 hover:text-blue-900" %>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Category</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= link_to @book.category.name, category_path(@book.category), class: "text-blue-600 hover:text-blue-900" %>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Published Date</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= format_date(@book.published_date) %></dd>
+          </div>
+
+          <div class="sm:col-span-2">
+            <dt class="text-sm font-medium text-gray-500">Description</dt>
+            <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap"><%= @book.description %></dd>
+          </div>
+        </dl>
+      </div>
+
+      <% if @book.book_loans.exists? || @book.reservations.exists? %>
+        <div class="px-4 py-5 sm:p-6 border-t border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">History</h3>
+          
+          <% if @book.book_loans.exists? %>
+            <div class="mb-6">
+              <h4 class="text-sm font-medium text-gray-700 mb-3">Loan History</h4>
+              <div class="bg-gray-50 rounded-lg overflow-hidden">
+                <ul class="divide-y divide-gray-200">
+                  <% @book.book_loans.order(borrowed_date: :desc).each do |loan| %>
+                    <li class="px-4 py-3">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <p class="text-sm font-medium text-gray-900">
+                            <%= link_to loan.member.name, member_path(loan.member), class: "text-blue-600 hover:text-blue-900" %>
+                          </p>
+                          <p class="text-xs text-gray-500">
+                            <%= format_date(loan.borrowed_date) %> - 
+                            <%= loan.returned? ? format_date(loan.returned_date) : 'Present' %>
+                          </p>
+                        </div>
+                        <span class="<%= loan_status_classes(loan) %>">
+                          <%= loan.returned? ? 'Returned' : (loan.overdue? ? 'Overdue' : 'Active') %>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+
+          <% if @book.reservations.exists? %>
+            <div>
+              <h4 class="text-sm font-medium text-gray-700 mb-3">Reservation History</h4>
+              <div class="bg-gray-50 rounded-lg overflow-hidden">
+                <ul class="divide-y divide-gray-200">
+                  <% @book.reservations.order(reserved_on: :desc).each do |reservation| %>
+                    <li class="px-4 py-3">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <p class="text-sm font-medium text-gray-900">
+                            <%= link_to reservation.member.name, member_path(reservation.member), class: "text-blue-600 hover:text-blue-900" %>
+                          </p>
+                          <p class="text-xs text-gray-500">
+                            Reserved on <%= format_date(reservation.reserved_on) %>
+                          </p>
+                        </div>
+                        <span class="<%= status_badge(reservation.status, "reservation") %>">
+                          <%= reservation.status.humanize %>
+                        </span>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

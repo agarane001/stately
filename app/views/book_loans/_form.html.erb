@@ -10,12 +10,12 @@
     </div>
   <% end %>
 
-  <div class="space-y-6">
+  <div class="space-y-6 bg-white p-4">
     <div>
       <%= f.label :book_id, class: "block text-sm font-medium text-gray-700" %>
       <%= f.collection_select :book_id, Book.available.order(:title), :id, :title, 
           { prompt: "Select a book" }, 
-          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+          class: "mt-1 block w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500",
           disabled: book_loan.persisted? %>
     </div>
 
@@ -23,25 +23,25 @@
       <%= f.label :member_id, class: "block text-sm font-medium text-gray-700" %>
       <%= f.collection_select :member_id, Member.active.order(:name), :id, :name, 
           { prompt: "Select a member" }, 
-          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+          class: "mt-1 block w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500",
           disabled: book_loan.persisted? %>
     </div>
 
     <div>
       <%= f.label :borrowed_date, class: "block text-sm font-medium text-gray-700" %>
       <%= f.date_field :borrowed_date, 
-          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+          class: "mt-1 block w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500" %>
     </div>
 
     <div>
       <%= f.label :due_date, class: "block text-sm font-medium text-gray-700" %>
       <%= f.date_field :due_date, 
-          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+          class: "mt-1 block w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500" %>
     </div>
 
     <div class="flex justify-end space-x-3">
-      <%= link_to 'Cancel', book_loans_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" %>
-      <%= f.submit class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <%= link_to 'Cancel', book_loans_path, class: "px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+      <%= f.submit class: "px-4 py-2 border border-transparent rounded shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>
   </div>
 <% end %>

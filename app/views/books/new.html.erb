@@ -1,12 +1,16 @@
 <div class="max-w-3xl mx-auto">
-  <div class="md:flex md:items-center md:justify-between mb-8">
-    <div class="flex-1 min-w-0">
-      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">New Book</h2>
+  <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <div class="md:flex md:items-center md:justify-between mb-6">
+      <div class="flex-1 min-w-0">
+        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">New Book</h2>
+      </div>
+      <div class="mt-4 flex md:mt-0 md:ml-4">
+        <%= back_button(books_path) %>
+      </div>
     </div>
-    <div class="mt-4 flex md:mt-0 md:ml-4">
-      <%= link_to 'Back to Books', books_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+
+    <div class="bg-white">
+      <%= render 'form', book: @book %>
     </div>
   </div>
-
-  <%= render 'form', book: @book %>
 </div>
