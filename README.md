@@ -41,7 +41,7 @@ A modern library management system built with Ruby on Rails 8, featuring real-ti
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/stately.git
+git clone https://github.com/agarane001/stately.git
 cd stately
 ```
 
